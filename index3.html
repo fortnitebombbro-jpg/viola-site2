@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Для Виолы 💖</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+    min-height: 100vh;
+    padding: 30px 15px;
+    overflow-x: hidden;
+  }
+
+  .container {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 30px;
+    padding: 40px 30px;
+    max-width: 700px;
+    width: 100%;
+    margin: 0 auto;
+    box-shadow: 0 20px 60px rgba(255, 105, 180, 0.3);
+    position: relative;
+    z-index: 2;
+  }
+
+  h1 {
+    color: #e91e63;
+    font-size: 32px;
+    margin-bottom: 20px;
+    text-align: center;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+
+  .hearts {
+    font-size: 28px;
+    margin-bottom: 20px;
+    text-align: center;
+    letter-spacing: 5px;
+  }
+
+  .love-text {
+    color: #555;
+    font-size: 17px;
+    line-height: 1.7;
+    margin-bottom: 25px;
+  }
+
+  .love-text p { margin-bottom: 12px; }
+
+  /* ===== СЧЁТЧИК ===== */
+  .counter-section {
+    background: linear-gradient(135deg, #ffe0ec, #fff0f5);
+    border-radius: 20px;
+    padding: 25px 20px;
+    margin-bottom: 30px;
+    text-align: center;
+    border: 2px dashed #ffb6c1;
+  }
+
+  .counter-section h2 {
+    color: #e91e63;
+    font-size: 22px;
+    margin-bottom: 15px;
+  }
+
+  .counter-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+
+  .counter-item {
+    background: white;
+    border-radius: 15px;
+    padding: 15px 5px;
+    box-shadow: 0 4px 15px rgba(233, 30, 99, 0.15);
+  }
+
+  .counter-number {
+    font-size: 26px;
+    font-weight: bold;
+    color: #e91e63;
+    display: block;
+  }
+
+  .counter-label {
+    font-size: 12px;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .counter-total {
+    margin-top: 15px;
+    font-size: 15px;
+    color: #e91e63;
+    font-style: italic;
+  }
+
+  /* ===== ГАЛЕРЕЯ ===== */
+  .gallery-section {
+    margin-bottom: 30px;
+  }
+
+  .gallery-section h2 {
+    color: #e91e63;
+    font-size: 22px;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+  }
+
+  .gallery img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 15px rgba(233, 30, 99, 0.2);
+  }
+
+  .gallery img:hover {
+    transform: scale(1.05) rotate(2deg);
+    box-shadow: 0 8px 25px rgba(233, 30, 99, 0.4);
+  }
+
+  /* Модальное окно для фото */
+  .modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 999;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    cursor: pointer;
+  }
+
+  .modal.active { display: flex; }
+
+  .modal img {
+    max-width: 95%;
+    max-height: 90vh;
+    border-radius: 15px;
+    box-shadow: 0 0 40px rgba(255, 105, 180, 0.6);
+  }
+
+  /* ===== МУЗЫКА ===== */
+  .music-control {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 55px;
+    height: 55px;
+    background: linear-gradient(135deg, #e91e63, #ff6b9d);
+    border-radius: 50%;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(233, 30, 99, 0.5);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+  }
+
+  .music-control:hover { transform: scale(1.1); }
+  .music-control.playing { animation: spin 3s linear infinite; }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  /* ===== ФОРМА ===== */
+  .form-section h2 {
+    color: #e91e63;
+    font-size: 22px;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+
+  textarea {
+    width: 100%;
+    min-height: 130px;
+    border: 2px solid #ffb6c1;
+    border-radius: 15px;
+    padding: 15px;
+    font-size: 16px;
+    font-family: inherit;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.3s;
+    background: #fff5f8;
+  }
+
+  textarea:focus { border-color: #e91e63; }
+
+  button.send-btn {
+    display: block;
+    margin: 20px auto 0;
+    background: linear-gradient(135deg, #e91e63, #ff6b9d);
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    font-size: 18px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    font-weight: bold;
+    box-shadow: 0 8px 20px rgba(233, 30, 99, 0.4);
+  }
+
+  button.send-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 25px rgba(233, 30, 99, 0.5); }
+  button.send-btn:active { transform: translateY(0); }
+  button.send-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+  .status {
+    margin-top: 15px;
+    font-size: 15px;
+    color: #e91e63;
+    min-height: 20px;
+    text-align: center;
+  }
+
+  /* ===== ПЛАВАЮЩИЕ СЕРДЕЧКИ ===== */
+  .heart-float {
+    position: fixed;
+    color: #ff69b4;
+    font-size: 24px;
+    animation: floatUp 6s linear infinite;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  @keyframes floatUp {
+    0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+    20% { opacity: 1; }
+    100% { transform: translateY(-100px) scale(1.2); opacity: 0; }
+  }
+
+  @media (max-width: 500px) {
+    .counter-grid { grid-template-columns: repeat(2, 1fr); }
+    h1 { font-size: 26px; }
+    .container { padding: 25px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Кнопка музыки -->
+<button class="music-control" id="musicBtn" onclick="toggleMusic()" title="Включить музыку">🎵</button>
+
+<!-- Аудио (замени music.mp3 на свой файл) -->
+<audio id="bgMusic" loop>
+  <source src="VILLIAN_Aarne_-_Obshhestvo_Mertvykh_Pojetov_81921751 (1).mp3" type="audio/mpeg">
+</audio>
+
+<div class="container">
+
+  <h1>Виола, привет 💕</h1>
+
+  <div class="hearts">❤️ 💖 💗 💓 💞</div>
+
+  <div class="love-text">
+    <p>Ты — самое дорогое, что есть в моей жизни. Каждый день с тобой — это счастье, о котором я даже не мечтал.</p>
+    <p>Я люблю тебя больше, чем можно выразить словами. Твоя улыбка делает мой мир ярче, а твой голос — мой любимый звук на свете.</p>
+    <p>Ты моя вселенная, моя радость, моё вдохновение. Я люблю тебя бесконечно. 💖</p>
+  </div>
+
+  <!-- СЧЁТЧИК ДНЕЙ -->
+  <div class="counter-section">
+    <h2>Мы вместе уже 💞</h2>
+    <div class="counter-grid">
+      <div class="counter-item">
+        <span class="counter-number" id="days">0</span>
+        <span class="counter-label">дней</span>
+      </div>
+      <div class="counter-item">
+        <span class="counter-number" id="hours">0</span>
+        <span class="counter-label">часов</span>
+      </div>
+      <div class="counter-item">
+        <span class="counter-number" id="minutes">0</span>
+        <span class="counter-label">минут</span>
+      </div>
+      <div class="counter-item">
+        <span class="counter-number" id="seconds">0</span>
+        <span class="counter-label">секунд</span>
+      </div>
+    </div>
+    <div class="counter-total" id="totalDays"></div>
+  </div>
+
+  <!-- ГАЛЕРЕЯ -->
+  <div class="gallery-section">
+    <h2>Наши моменты 📸</h2>
+    <div class="gallery" id="gallery">
+      <!-- Фото подгружаются через JS, см. массив photos ниже -->
+    </div>
+  </div>
+
+  <!-- ФОРМА -->
+  <div class="form-section">
+    <h2>Напиши мне 💌</h2>
+    <textarea id="message" placeholder="Напиши, как мы можем сегодня увидеться и что будем делать... 💌"></textarea>
+    <button class="send-btn" id="sendBtn" onclick="sendMessage()">Отправить любимому 💌</button>
+    <div class="status" id="status"></div>
+  </div>
+
+</div>
+
+<!-- Модальное окно для фото -->
+<div class="modal" id="modal" onclick="closeModal()">
+  <img id="modalImg" src="" alt="">
+</div>
+
+<script>
+  // ==========================================
+  // 1. ДАТА НАЧАЛА ОТНОШЕНИЙ
+  // ==========================================
+  // ВАЖНО: укажи здесь вашу дату! Формат: ГГГГ, ММ-1, ДД, ЧЧ, ММ
+  // Месяцы считаются с 0 (0 = январь, 11 = декабрь)
+  const startDate = new Date(2026, 7, 8, 8, 8); // 1 января 2023 — ЗАМЕНИ НА СВОЮ ДАТУ
+
+  function updateCounter() {
+    const now = new Date();
+    const diff = now - startDate;
+
+    const totalSeconds = Math.floor(diff / 1000);
+    const days = Math.floor(totalSeconds / 86400);
+    const hours = Math.floor((totalSeconds % 86400) / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    document.getElementById('days').textContent = days;
+    document.getElementById('hours').textContent = hours;
+    document.getElementById('minutes').textContent = minutes;
+    document.getElementById('seconds').textContent = seconds;
+
+    const totalDays = Math.floor(diff / (1000 * 60 * 60 * 24));
+    document.getElementById('totalDays').textContent =
+      `Это ${totalDays.toLocaleString('ru-RU')} дней счастья 💕`;
+  }
+  updateCounter();
+  setInterval(updateCounter, 1000);
+
+  // ==========================================
+  // 2. ГАЛЕРЕЯ ФОТО
+  // ==========================================
+  // ВАЖНО: положи свои фото в папку рядом с index.html
+  // и перечисли имена файлов здесь
+  const photos = [
+    '5273733245923172765.jpg',
+    '5294016890403494800.jpg',
+    '5323311144342594600.jpg'
+  ];
+
+  const gallery = document.getElementById('gallery');
+  photos.forEach(src => {
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = 'Наше фото';
+    img.onerror = () => img.remove(); // если фото нет — просто скрываем
+    img.onclick = () => openModal(src);
+    gallery.appendChild(img);
+  });
+
+  function openModal(src) {
+    document.getElementById('modalImg').src = src;
+    document.getElementById('modal').classList.add('active');
+  }
+
+  function closeModal() {
+    document.getElementById('modal').classList.remove('active');
+  }
+
+  // ==========================================
+  // 3. МУЗЫКА
+  // ==========================================
+  const music = document.getElementById('bgMusic');
+  const musicBtn = document.getElementById('musicBtn');
+
+  function toggleMusic() {
+    if (music.paused) {
+      music.volume = 0.5;
+      music.play().then(() => {
+        musicBtn.textContent = '⏸';
+        musicBtn.classList.add('playing');
+      }).catch(() => {
+        alert('Не удалось включить музыку. Проверь, что файл music.mp3 есть рядом с index.html');
+      });
+    } else {
+      music.pause();
+      musicBtn.textContent = '🎵';
+      musicBtn.classList.remove('playing');
+    }
+  }
+
+  // ==========================================
+  // 4. ПЛАВАЮЩИЕ СЕРДЕЧКИ
+  // ==========================================
+  function createHeart() {
+    const heart = document.createElement('div');
+    heart.className = 'heart-float';
+    heart.textContent = ['❤️','💖','💕','💗','💓'][Math.floor(Math.random()*5)];
+    heart.style.left = Math.random() * 100 + 'vw';
+    heart.style.animationDuration = (4 + Math.random() * 4) + 's';
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 8000);
+  }
+  setInterval(createHeart, 500);
+
+  // ==========================================
+  // 5. ОТПРАВКА СООБЩЕНИЯ В TELEGRAM
+  // ==========================================
+  async function sendMessage() {
+    const text = document.getElementById('message').value.trim();
+    const status = document.getElementById('status');
+    const btn = document.getElementById('sendBtn');
+
+    if (!text) {
+      status.textContent = 'Напиши что-нибудь, любимая 💕';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Отправляю...';
+    status.textContent = '';
+
+    try {
+      const response = await fetch('/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text })
+      });
+
+      if (response.ok) {
+        status.textContent = 'Сообщение отправлено! Он уже знает 💖';
+        document.getElementById('message').value = '';
+        btn.textContent = 'Отправлено ✓';
+        setTimeout(() => {
+          btn.textContent = 'Отправить любимому 💌';
+          btn.disabled = false;
+        }, 3000);
+      } else {
+        throw new Error('Ошибка сервера');
+      }
+    } catch (e) {
+      status.textContent = 'Ошибка отправки, попробуй ещё раз 😢';
+      btn.textContent = 'Отправить любимому 💌';
+      btn.disabled = false;
+    }
+  }
+</script>
+
+</body>
+</html>
